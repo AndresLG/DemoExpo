@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Persona</title>
+    </h:head>
+    <h:body>
+        <h1><center>Persona</center></h1>
+        <h:form id="FormTblPersona">
+            <p:growl autoUpdate="true" life="1000"/>
+            <p:dataTable id="tblPersona"  
+                         value="#{personaC.lstPersona}"
+                         var="persona"
+                         selectionMode="single"
+                         selection="#{personaC.selectedPersona}"
+                         rowKey="#{persona.CODPER}"
+                         rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" reflow="true">
+                <p:column headerText="Nombre">
+                    <p:outputLabel  value="#{persona.NOMPER}"/>
+                </p:column>
+                <p:column headerText="Apellidos">
+                    <p:outputLabel   value="#{persona.APEPER}"/>
+                </p:column>
+                <p:column headerText="Dni">
+                    <p:outputLabel  value="#{persona.DNIPER}"/>
+                </p:column>
+                <p:column headerText="FechaNacimiento">
+                    <p:outputLabel  value="#{persona.FECNACPER}"/>
+                </p:column>
+                <p:column headerText="Dirección">
+                    <p:outputLabel   value="#{persona.DIRPER}"/>
+                </p:column>
+                <p:column headerText="Teléfono">
+                    <p:outputLabel  value="#{persona.TELPER}"/>
+                </p:column>
+                <p:column headerText="Estado">
+                    <p:outputLabel  value="#{persona.ESTPER}"/>
+                </p:column>
+                <f:facet name="header">
+                    <p:commandButton icon="fa fa-plus" value="Nuevo Persona" onclick="PF('dlgNewPersona').show();" actionListener="#{personaC.limpiar()}"/>
+                </f:facet>
+            </p:dataTable>
+            <p:contextMenu for="tblPersona">
+                <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModPersona').show();" update="FormModPersona"/>
+                <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{personaC.eliminar()}"  update="tblPersona">
+                    <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
+                </p:menuitem>
+            </p:contextMenu>
+        </h:form>
+
+        <h:form>
+            <p:confirmDialog global="true">
+                <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+        <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModPersona" resizable="false"  modal="true">
+            <h:form id="FormModPersona">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombres:"/>
+                    <p:inputText value="#{personaC.selectedPersona.NOMPER}" placeholder="Nombres" maxlength="30">
+                        <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
+                    </p:inputText>
+                    <p:outputLabel value="Apellidos:"/>
+                    <p:inputText value="#{personaC.selectedPersona.APEPER}" placeholder="Apellidos" maxlength="30">
+                        <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú_.]/i"/>
+                    </p:inputText>
+                    <p:outputLabel value="Dirección:"/>
+                    <p:inputText value="#{personaC.selectedPersona.DIRPER}" placeholder="Dirección" maxlength="30"/>
+                    <p:outputLabel value="Teléfono:"/>
+                    <p:inputText value="#{personaC.selectedPersona.TELPER}" placeholder="Teléfono" maxlength="9">
+                        <p:keyFilter regEx="/[\d]/"/>
+                    </p:inputText>
+                </p:panelGrid>
+                <p:commandButton icon="fa fa-edit" value="Modificar" actionListener="#{personaC.modificar()}" update=":FormTblPersona:tblPersona"  onclick="PF('dlgModPersona').hide();"/>
+                <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModPersona').hide();"/>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlg" header="Agregar Persona"  widgetVar="dlgNewPersona" resizable="false" modal="true">
+            <h:form id="FormPersona"> 
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Nombres:"/>
+                    <p:inputText value="#{personaC.persona.NOMPER}" placeholder="Nombres" maxlength="30" requiredMessage="INGRESE EL NOMBRE">
+                        <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
+                    </p:inputText>
+                    <p:outputLabel value="Apellidos:"/>
+                    <p:inputText value="#{personaC.persona.APEPER}" placeholder="Apellidos" maxlength="30" requiredMessage="INGRESE EL APELLIDO">
+                        <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú_.]/i"/>
+                    </p:inputText>
+                    <p:outputLabel value="Dni:"/>
+                    <p:inputText value="#{personaC.persona.DNIPER}" placeholder="Dni" maxlength="8" requiredMessage="INGRESE EL DNI">
+                        <p:keyFilter regEx="/[\d]/"/>
+                    </p:inputText>
+                    <p:outputLabel value="FechaNacimiento:"/>
+                    <p:inputMask value="#{personaC.persona.FECNACPER}" placeholder="FechaNacimiento" mask="99/99/9999" requiredMessage="INGRESE LA FECHA DE NACIMIENTO"/>
+                    <p:outputLabel value="Dirección:"/>
+                    <p:inputText value="#{personaC.persona.DIRPER}" placeholder="Dirección" maxlength="30" requiredMessage="INGRESE LA DIRECCIÓN"/>
+                    <p:outputLabel  value="Teléfono:"/>
+                    <p:inputText value="#{personaC.persona.TELPER}" placeholder="Teléfono" maxlength="9" requiredMessage="INGRESE EL TELÉFONO">
+                        <p:keyFilter regEx="/[\d]/"/>
+                    </p:inputText>
+                </p:panelGrid>
+                <p:commandButton binding="#{registrar}" icon="fa fa-save" value="Guardar" actionListener="#{personaC.guardar()}" update="FormPersona :FormTblPersona:tblPersona" onclick="PF('dlgNewPersona').hide();"/>
+                <p:commandButton icon="fa fa-close" value="Cancelar" actionListener="#{personaC.limpiar()}" update="FormPersona" onclick="PF('dlgNewPersona').hide();"/>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>
