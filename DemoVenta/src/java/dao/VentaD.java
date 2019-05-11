@@ -14,7 +14,7 @@ public class VentaD extends Dao{
             String sql = "INSERT INTO VENTA (FECVEN,TOTVEN,CODPER,CODDETVEN) VALUES(?,?,?,?)";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, venta.getFECVEN());
-            ps.setInt(2, venta.getTOTVEN());
+            ps.setString(2, venta.getTOTVEN());
             ps.setString(3, venta.getCODPER());
             ps.setString(4, venta.getCODDETVEN());
             ps.executeUpdate();
@@ -31,7 +31,7 @@ public class VentaD extends Dao{
             String sql = "UPDATE VENTA SET FECVEN=?,TOTVEN=?,CODPER=?,CODDETVEN=? WHERE CODVEN=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, venta.getFECVEN());
-            ps.setInt(2, venta.getTOTVEN());
+            ps.setString(2, venta.getTOTVEN());
             ps.setString(3, venta.getCODPER());
             ps.setString(4, venta.getCODDETVEN());
             ps.setInt(5, venta.getCODVEN());
@@ -62,7 +62,7 @@ public class VentaD extends Dao{
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "SELECT * FROM vw_Venta ORDER BY CODVEN";
+            String sql = "SELECT * FROM vw_Venta_Final ORDER BY CODVEN";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             lista = new ArrayList();
@@ -70,9 +70,14 @@ public class VentaD extends Dao{
                 VentaM venta = new VentaM();
                 venta.setCODVEN(rs.getInt("CODVEN"));
                 venta.setFECVEN(rs.getString("FECVEN"));
-                venta.setTOTVEN(rs.getInt("TOTVEN"));
+                venta.setTOTVEN(rs.getString("TOTVEN"));
                 venta.setCODPER(rs.getString("CODPER"));
+                venta.setNOMBREPER(rs.getString("Persona"));
                 venta.setCODDETVEN(rs.getString("CODDETVEN"));
+                venta.setDESCPRO(rs.getString("Producto"));
+                venta.setCOSTPRO(rs.getString("Costo"));
+                venta.setCANTPRO(rs.getString("Cantidad"));
+                venta.setSUBTDETVEN(rs.getString("Subtotal"));
                 lista.add(venta);
             }
             return lista;

@@ -11,7 +11,7 @@ public class Dao {
         try {
               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
               cn=DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=BDVenta","admin","admin");
-//              cn=DriverManager.getConnection("jdbc:sqlserver://localhost:1433;database=BDVenta","","");
+//              cn=DriverManager.getConnection("jdbc:sqlserver://192.168.8.130:1433;database=BDVenta","admin","admin");
             System.out.println("Conectado");
         } catch (ClassNotFoundException e) {
             System.out.println("Error: " + e);

@@ -1,8 +1,8 @@
 package model;
 
 public class VentaDetalleM {
-    private int CODDETVEN,CANVEN,SBTVEN;
-    private String CODPRO;
+    private int CODDETVEN;
+    private String CANVEN,SBTVEN,CODPRO,DESCPRO;
 
     public int getCODDETVEN() {
         return CODDETVEN;
@@ -12,19 +12,19 @@ public class VentaDetalleM {
         this.CODDETVEN = CODDETVEN;
     }
 
-    public int getCANVEN() {
+    public String getCANVEN() {
         return CANVEN;
     }
 
-    public void setCANVEN(int CANVEN) {
+    public void setCANVEN(String CANVEN) {
         this.CANVEN = CANVEN;
     }
 
-    public int getSBTVEN() {
+    public String getSBTVEN() {
         return SBTVEN;
     }
 
-    public void setSBTVEN(int SBTVEN) {
+    public void setSBTVEN(String SBTVEN) {
         this.SBTVEN = SBTVEN;
     }
 
@@ -35,5 +35,14 @@ public class VentaDetalleM {
     public void setCODPRO(String CODPRO) {
         this.CODPRO = CODPRO;
     }
+
+    public String getDESCPRO() {
+        return DESCPRO;
+    }
+
+    public void setDESCPRO(String DESCPRO) {
+        this.DESCPRO = DESCPRO;
+    }
+
     
 }

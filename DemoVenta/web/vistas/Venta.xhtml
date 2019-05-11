@@ -25,40 +25,52 @@
                 <br />
                 <h:link outcome="VentaDetalle.xhtml" value="VentaDetalle" style="font-size: x-large"/>
             </p:layoutUnit>
-            <h:form id="FormTblVenta">
-                <p:growl autoUpdate="true" life="1000"/>
-                <p:dataTable id="tblVenta"  
-                             value="#{ventaC.lstVenta}"
-                             var="venta"
-                             selectionMode="single"
-                             selection="#{ventaC.selectedVenta}"
-                             rowKey="#{venta.CODVEN}"
-                             rows="10" paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15" reflow="true">
-                    <p:column headerText="Fecha">
-                        <p:outputLabel  value="#{venta.FECVEN}"/>
-                    </p:column>
-                    <p:column headerText="Total">
-                        <p:outputLabel   value="#{venta.TOTVEN}"/>
-                    </p:column>
-                    <p:column headerText="Persona">
-                        <p:outputLabel  value="#{venta.CODPER}"/>
-                    </p:column>
-                    <p:column headerText="Detalle">
-                        <p:outputLabel  value="#{venta.CODDETVEN}"/>
-                    </p:column>
-                    <f:facet name="header">
-                        <p:commandButton icon="fa fa-plus" value="Nuevo Venta" onclick="PF('dlgNewVenta').show();" actionListener="#{ventaC.limpiar()}"/>
-                    </f:facet>
-                </p:dataTable>
-                <p:contextMenu for="tblVenta">
-                    <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModVenta').show();" update="FormModVenta"/>
-                    <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{ventaC.eliminar()}"  update="tblVenta">
-                        <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
-                    </p:menuitem>
-                </p:contextMenu>
-            </h:form>
+            <p:layoutUnit position="center">
+                <h:form id="FormTblVenta">
+                    <h1><center>Venta</center></h1>
+                    <p:growl autoUpdate="true" life="1000"/>
+                    <p:dataTable id="tblVenta"  
+                                 value="#{ventaC.lstVenta}"
+                                 var="venta"
+                                 selectionMode="single"
+                                 selection="#{ventaC.venta}"
+                                 rowKey="#{venta.CODVEN}"
+                                 rows="10" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" reflow="true">
+                        <p:column headerText="Fecha">
+                            <p:outputLabel  value="#{venta.FECVEN}"/>
+                        </p:column>
+                        <p:column headerText="Total">
+                            <p:outputLabel   value="S/. #{venta.TOTVEN}"/>
+                        </p:column>
+                        <p:column headerText="Persona">
+                            <p:outputLabel  value="#{venta.NOMBREPER}"/>
+                        </p:column>
+                        <p:column headerText="Producto">
+                            <p:outputLabel  value="#{venta.DESCPRO}"/>
+                        </p:column>
+                        <p:column headerText="Costo">
+                            <p:outputLabel  value="S/. #{venta.COSTPRO}"/>
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <p:outputLabel  value="#{venta.CANTPRO}"/>
+                        </p:column>
+                        <p:column headerText="Subtotal">
+                            <p:outputLabel  value="S/. #{venta.SUBTDETVEN}"/>
+                        </p:column>
+                        <f:facet name="header">
+                            <p:commandButton icon="fa fa-plus" value="Agregar" onclick="PF('dlgNewVenta').show();" actionListener="#{ventaC.limpiar()}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <p:contextMenu for="tblVenta">
+                        <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModVenta').show();" update="FormModVenta"/>
+                        <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{ventaC.eliminar()}"  update="tblVenta">
+                            <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
+                        </p:menuitem>
+                    </p:contextMenu>
+                </h:form>
+            </p:layoutUnit>
 
             <h:form>
                 <p:confirmDialog global="true">
@@ -66,43 +78,13 @@
                     <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                 </p:confirmDialog>
             </h:form>
-            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModVenta" resizable="false"  modal="true">
-                <h:form id="FormModVenta">
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Fecha:"/>
-                        <p:inputMask value="#{ventaC.selectedVenta.FECVEN}" mask="99/99/9999" placeholder="Fecha"/>
-                        <p:outputLabel value="Total:"/>
-                        <p:inputText value="#{ventaC.selectedVenta.TOTVEN}" placeholder="Total" maxlength="4">
-                            <p:keyFilter regEx="/[\d]/"/>
-                        </p:inputText>
-                        <p:outputLabel  value="Persona:"/>
-                            <p:selectOneMenu value="#{ventaC.selectedVenta.CODPER}" required="true" requiredMessage="INGRESE EL NOMBRE DEL CLIENTE">
-                                <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
-                                <f:selectItems value="#{personaC.lstPersona}" var="persona" itemLabel="#{persona.NOMPER} #{persona.APEPER}" itemValue="#{persona.CODPER}"/>
-                            </p:selectOneMenu>
-                        <p:outputLabel  value="Detalle:"/>
-                        <p:selectOneMenu value="#{ventaC.selectedVenta.CODDETVEN}" required="true" requiredMessage="INGRESE EL PRODUCTO">
-                                <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
-                                <f:selectItems value="#{ventaDetalleC.lstVentaDetalle}" var="ventaDetalle" itemLabel="#{ventaDetalle.CANVEN}" itemValue="#{ventaDetalle.CODDETVEN}"/>
-                            </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton icon="fa fa-edit" value="Modificar" actionListener="#{ventaC.modificar()}" update=":FormTblVenta:tblVenta"  onclick="PF('dlgModVenta').hide();"/>
-                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModVenta').hide();"/>
-                </h:form>
-            </p:dialog>
-
             <p:dialog id="dlg" header="Agregar Venta"  widgetVar="dlgNewVenta" resizable="false" modal="true">
                 <h:form id="FormVenta"> 
                     <p:panelGrid columns="2">
                         <p:outputLabel value="Fecha:"/>
-                        <p:inputText value="#{ventaC.venta.FECVEN}" placeholder="Fecha" maxlength="30" requiredMessage="INGRESE EL NOMBRE">
-                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
-                        </p:inputText>
-                        <p:outputLabel value="Apellidos:"/>
-                        <p:inputText value="#{ventaC.venta.TOTVEN}" placeholder="Apellidos" maxlength="30" requiredMessage="INGRESE EL APELLIDO">
-                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú_.]/i"/>
-                        </p:inputText>
-                        <p:inputText value="#{ventaC.venta.CODPER}" placeholder="Dni" maxlength="8" requiredMessage="INGRESE EL DNI">
+                        <p:inputMask value="#{ventaC.venta.FECVEN}" placeholder="Fecha" mask="99/99/9999" requiredMessage="INGRESE LA FECHA"/>
+                        <p:outputLabel value="Total:"/>
+                        <p:inputText value="#{ventaC.venta.TOTVEN}" placeholder="Total" maxlength="4" requiredMessage="INGRESE EL SUBTOTAL">
                             <p:keyFilter regEx="/[\d]/"/>
                         </p:inputText>
                         <p:outputLabel value="Persona:"/>
@@ -113,11 +95,36 @@
                         <p:outputLabel value="Detalle:"/>
                         <p:selectOneMenu value="#{ventaC.venta.CODDETVEN}" required="true" requiredMessage="INGRESE EL PRODUCTO">
                             <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
-                            <f:selectItems value="#{ventaDetalleC.lstVentaDetalle}" var="ventaDetalle" itemLabel="#{ventaDetalle.CANVEN}" itemValue="#{ventaDetalle.CODDETVEN}"/>
+                            <f:selectItems value="#{ventaDetalleC.lstVentaDetalle}" var="ventaDetalle" itemLabel="#{ventaDetalle.DESCPRO}" itemValue="#{ventaDetalle.CODDETVEN}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton binding="#{registrar}" icon="fa fa-save" value="Guardar" actionListener="#{ventaC.guardar()}" update="FormVenta :FormTblVenta:tblVenta" onclick="PF('dlgNewVenta').hide();"/>
                     <p:commandButton icon="fa fa-close" value="Cancelar" actionListener="#{ventaC.limpiar()}" update="FormVenta" onclick="PF('dlgNewVenta').hide();"/>
+                </h:form>
+            </p:dialog>
+            
+            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModVenta" resizable="false"  modal="true">
+                <h:form id="FormModVenta">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Fecha:"/>
+                        <p:inputMask value="#{ventaC.venta.FECVEN}" placeholder="Fecha" mask="99/99/9999"/>
+                        <p:outputLabel value="Total:"/>
+                        <p:inputText value="#{ventaC.venta.TOTVEN}" placeholder="Total" maxlength="4">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel  value="Persona:"/>
+                        <p:selectOneMenu value="#{ventaC.venta.CODPER}">
+                            <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
+                            <f:selectItems value="#{personaC.lstPersona}" var="persona" itemLabel="#{persona.NOMPER} #{persona.APEPER}" itemValue="#{persona.CODPER}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel  value="Detalle:"/>
+                        <p:selectOneMenu value="#{ventaC.venta.CODDETVEN}">
+                            <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
+                            <f:selectItems value="#{ventaDetalleC.lstVentaDetalle}" var="ventaDetalle" itemLabel="#{ventaDetalle.DESCPRO}" itemValue="#{ventaDetalle.CODDETVEN}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton icon="fa fa-edit" value="Aceptar" actionListener="#{ventaC.modificar()}" update=":FormTblVenta:tblVenta"  onclick="PF('dlgModVenta').hide();"/>
+                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModVenta').hide();"/>
                 </h:form>
             </p:dialog>
         </p:layout>

@@ -13,8 +13,8 @@ public class VentaDetalleD extends Dao{
             this.conectar();
             String sql = "INSERT INTO DETALLE_VENTA (CANVEN,SBTVEN,CODPRO) VALUES(?,?,?)";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
-            ps.setInt(1, ventaDetalle.getCANVEN());
-            ps.setInt(2, ventaDetalle.getSBTVEN());
+            ps.setString(1, ventaDetalle.getCANVEN());
+            ps.setString(2, ventaDetalle.getSBTVEN());
             ps.setString(3, ventaDetalle.getCODPRO());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -29,8 +29,8 @@ public class VentaDetalleD extends Dao{
             this.conectar();
             String sql = "UPDATE DETALLE_VENTA SET CANVEN=?,SBTVEN=?,CODPRO=? WHERE CODDETVEN=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
-            ps.setInt(1, ventaDetalle.getCANVEN());
-            ps.setInt(2, ventaDetalle.getSBTVEN());
+            ps.setString(1, ventaDetalle.getCANVEN());
+            ps.setString(2, ventaDetalle.getSBTVEN());
             ps.setString(3, ventaDetalle.getCODPRO());
             ps.setInt(4, ventaDetalle.getCODDETVEN());
             ps.executeUpdate();
@@ -60,16 +60,17 @@ public class VentaDetalleD extends Dao{
         ResultSet rs;
         try {
             this.conectar();
-            String sql = "SELECT * FROM vw_VentaDetalle ORDER BY CODDETVEN";
+            String sql = "SELECT * FROM vw_venta_Detalle ORDER BY CODDETVEN";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             rs = ps.executeQuery();
             lista = new ArrayList();
             while (rs.next()) {
                 VentaDetalleM ventaDetalle = new VentaDetalleM();
                 ventaDetalle.setCODDETVEN(rs.getInt("CODDETVEN"));
-                ventaDetalle.setCANVEN(rs.getInt("CANVEN"));
-                ventaDetalle.setSBTVEN(rs.getInt("SBTVEN"));
+                ventaDetalle.setCANVEN(rs.getString("CANVEN"));
+                ventaDetalle.setSBTVEN(rs.getString("SBTVEN"));
                 ventaDetalle.setCODPRO(rs.getString("CODPRO"));
+                ventaDetalle.setDESCPRO(rs.getString("Producto"));
                 lista.add(ventaDetalle);
             }
             return lista;

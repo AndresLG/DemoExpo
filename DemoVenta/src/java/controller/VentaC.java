@@ -48,7 +48,7 @@ public class VentaC implements Serializable {
         VentaD dao;
         try {
             dao = new VentaD();
-            dao.modificarVenta(selectedVenta);
+            dao.modificarVenta(venta);
             listar();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"MODIFICADO CON ÉXITO",null ));
             limpiar();
@@ -61,7 +61,7 @@ public class VentaC implements Serializable {
         VentaD dao;
         try {
             dao = new VentaD();
-            dao.eliminarVenta(selectedVenta);
+            dao.eliminarVenta(venta);
             listar();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"ELIMINADO CON ÉXITO",null ));
             limpiar();

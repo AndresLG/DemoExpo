@@ -51,7 +51,7 @@
                             <p:outputLabel  value="#{producto.ESTPRO}"/>
                         </p:column>
                         <f:facet name="header">
-                            <p:commandButton icon="fa fa-plus" value="Nuevo Producto" onclick="PF('dlgNewProducto').show();" actionListener="#{productoC.limpiar()}"/>
+                            <p:commandButton icon="fa fa-plus" value="Agregar" onclick="PF('dlgNewProducto').show();" actionListener="#{productoC.limpiar()}"/>
                         </f:facet>
                     </p:dataTable>
                     <p:contextMenu for="tblProducto">
@@ -69,27 +69,6 @@
                     <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                 </p:confirmDialog>
             </h:form>
-            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModProducto" resizable="false"  modal="true">
-                <h:form id="FormModProducto">
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Descripción:"/>
-                        <p:inputText value="#{productoC.selectedProducto.DESPRO}" placeholder="Descripción" maxlength="30">
-                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
-                        </p:inputText>
-                        <p:outputLabel value="Costo:"/>
-                        <p:inputText value="#{productoC.selectedProducto.COSPRO}" placeholder="Costo" maxlength="4">
-                            <p:keyFilter regEx="/[\d]/"/>
-                        </p:inputText>
-                        <p:outputLabel value="Stock:"/>
-                        <p:inputText value="#{productoC.selectedProducto.STCPRO}" placeholder="Stock" maxlength="2">
-                            <p:keyFilter regEx="/[\d]/"/>
-                        </p:inputText>
-                    </p:panelGrid>
-                    <p:commandButton icon="fa fa-edit" value="Modificar" actionListener="#{productoC.modificar()}" update=":FormTblProducto:tblProducto"  onclick="PF('dlgModProducto').hide();"/>
-                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModProducto').hide();"/>
-                </h:form>
-            </p:dialog>
-
             <p:dialog id="dlg" header="Agregar Producto"  widgetVar="dlgNewProducto" resizable="false" modal="true">
                 <h:form id="FormProducto"> 
                     <p:panelGrid columns="2">
@@ -108,6 +87,27 @@
                     </p:panelGrid>
                     <p:commandButton binding="#{registrar}" icon="fa fa-save" value="Guardar" actionListener="#{productoC.guardar()}" update="FormProducto :FormTblProducto:tblProducto" onclick="PF('dlgNewProducto').hide();"/>
                     <p:commandButton icon="fa fa-close" value="Cancelar" actionListener="#{productoC.limpiar()}" update="FormProducto" onclick="PF('dlgNewProducto').hide();"/>
+                </h:form>
+            </p:dialog>
+            
+            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModProducto" resizable="false"  modal="true">
+                <h:form id="FormModProducto">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Descripción:"/>
+                        <p:inputText value="#{productoC.selectedProducto.DESPRO}" placeholder="Descripción" maxlength="30">
+                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
+                        </p:inputText>
+                        <p:outputLabel value="Costo:"/>
+                        <p:inputText value="#{productoC.selectedProducto.COSPRO}" placeholder="Costo" maxlength="4">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel value="Stock:"/>
+                        <p:inputText value="#{productoC.selectedProducto.STCPRO}" placeholder="Stock" maxlength="2">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                    <p:commandButton icon="fa fa-edit" value="Aceptar" actionListener="#{productoC.modificar()}" update=":FormTblProducto:tblProducto"  onclick="PF('dlgModProducto').hide();"/>
+                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModProducto').hide();"/>
                 </h:form>
             </p:dialog>
         </p:layout>

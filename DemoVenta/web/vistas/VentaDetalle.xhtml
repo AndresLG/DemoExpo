@@ -23,39 +23,42 @@
                 <br />
                 <h:link outcome="Producto.xhtml" value="Producto" style="font-size: x-large"/>
                 <br />
-                <h:link outcome="VentaDetalle.xhtml" value="VentaDetalle" style="font-size: x-large"/>
+                <h:link outcome="Venta.xhtml" value="Venta" style="font-size: x-large"/>
             </p:layoutUnit>
-            <h:form id="FormTblVentaDetalle">
-                <p:growl autoUpdate="true" life="1000"/>
-                <p:dataTable id="tblVentaDetalle"  
-                             value="#{ventaDetalleC.lstVentaDetalle}"
-                             var="ventaDetalle"
-                             selectionMode="single"
-                             selection="#{ventaDetalleC.selectedVentaDetalle}"
-                             rowKey="#{ventaDetalle.CODDETVEN}"
-                             rows="10" paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15" reflow="true">
-                    <p:column headerText="Cantidad">
-                        <p:outputLabel  value="#{ventaDetalle.CANVEN}"/>
-                    </p:column>
-                    <p:column headerText="Subtotal">
-                        <p:outputLabel   value="#{ventaDetalle.SBTVEN}"/>
-                    </p:column>
-                    <p:column headerText="Producto">
-                        <p:outputLabel  value="#{ventaDetalle.CODPRO}"/>
-                    </p:column>
-                    <f:facet name="header">
-                        <p:commandButton icon="fa fa-plus" value="Nuevo VentaDetalle" onclick="PF('dlgNewVentaDetalle').show();" actionListener="#{ventaDetalleC.limpiar()}"/>
-                    </f:facet>
-                </p:dataTable>
-                <p:contextMenu for="tblVentaDetalle">
-                    <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModVentaDetalle').show();" update="FormModVentaDetalle"/>
-                    <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{ventaDetalleC.eliminar()}"  update="tblVentaDetalle">
-                        <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
-                    </p:menuitem>
-                </p:contextMenu>
-            </h:form>
+            <p:layoutUnit position="center">
+                <h:form id="FormTblVentaDetalle">
+                    <h1><center>Detalle Venta</center></h1>
+                    <p:growl autoUpdate="true" life="1000"/>
+                    <p:dataTable id="tblVentaDetalle"  
+                                 value="#{ventaDetalleC.lstVentaDetalle}"
+                                 var="ventaDetalle"
+                                 selectionMode="single"
+                                 selection="#{ventaDetalleC.ventaDetalle}"
+                                 rowKey="#{ventaDetalle.CODDETVEN}"
+                                 rows="10" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" reflow="true">
+                        <p:column headerText="Cantidad">
+                            <p:outputLabel  value="#{ventaDetalle.CANVEN}"/>
+                        </p:column>
+                        <p:column headerText="Subtotal">
+                            <p:outputLabel   value="#{ventaDetalle.SBTVEN}"/>
+                        </p:column>
+                        <p:column headerText="Producto">
+                            <p:outputLabel  value="#{ventaDetalle.DESCPRO}"/>
+                        </p:column>
+                        <f:facet name="header">
+                            <p:commandButton icon="fa fa-plus" value="Agregar" onclick="PF('dlgNewVentaDetalle').show();" actionListener="#{ventaDetalleC.limpiar()}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <p:contextMenu for="tblVentaDetalle">
+                        <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModVentaDetalle').show();" update="FormModVentaDetalle"/>
+                        <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{ventaDetalleC.eliminar()}"  update="tblVentaDetalle">
+                            <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
+                        </p:menuitem>
+                    </p:contextMenu>
+                </h:form>
+            </p:layoutUnit>
 
             <h:form>
                 <p:confirmDialog global="true">
@@ -63,28 +66,6 @@
                     <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                 </p:confirmDialog>
             </h:form>
-            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModVentaDetalle" resizable="false"  modal="true">
-                <h:form id="FormModVentaDetalle">
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Cantidad:"/>
-                        <p:inputText value="#{ventaDetalleC.selectedVentaDetalle.CANVEN}" placeholder="Cantidad" maxlength="2">
-                            <p:keyFilter regEx="/[\d]/"/>
-                        </p:inputText>
-                        <p:outputLabel value="Subtotal:"/>
-                        <p:inputText value="#{ventaDetalleC.selectedVentaDetalle.SBTVEN}" placeholder="Subtotal" maxlength="4">
-                            <p:keyFilter regEx="/[\d]/"/>
-                        </p:inputText>
-                        <p:outputLabel  value="Producto:"/>
-                        <p:selectOneMenu value="#{ventaDetalleC.selectedVentaDetalle.CODPRO}" required="true" requiredMessage="INGRESE EL PRODUCTO">
-                                <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
-                                <f:selectItems value="#{productoC.lstProducto}" var="producto" itemLabel="#{producto.DESPRO}" itemValue="#{producto.CODPRO}"/>
-                            </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton icon="fa fa-edit" value="Modificar" actionListener="#{ventaDetalleC.modificar()}" update=":FormTblVentaDetalle:tblVentaDetalle"  onclick="PF('dlgModVentaDetalle').hide();"/>
-                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModVentaDetalle').hide();"/>
-                </h:form>
-            </p:dialog>
-
             <p:dialog id="dlg" header="Agregar VentaDetalle"  widgetVar="dlgNewVentaDetalle" resizable="false" modal="true">
                 <h:form id="FormVentaDetalle"> 
                     <p:panelGrid columns="2">
@@ -97,13 +78,35 @@
                             <p:keyFilter regEx="/[\d]/"/>
                         </p:inputText>
                         <p:outputLabel value="Producto:"/>
-                        <p:selectOneMenu value="#{ventaDetalleC.ventaDetalle.CODPRO}" required="true" requiredMessage="INGRESE EL NOMBRE DEL PRODUCTO">
+                        <p:selectOneMenu value="#{ventaDetalleC.ventaDetalle.CODPRO}" requiredMessage="INGRESE EL NOMBRE DEL PRODUCTO">
                             <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
                             <f:selectItems value="#{productoC.lstProducto}" var="producto" itemLabel="#{producto.DESPRO}" itemValue="#{producto.CODPRO}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton binding="#{registrar}" icon="fa fa-save" value="Guardar" actionListener="#{ventaDetalleC.guardar()}" update="FormVentaDetalle :FormTblVentaDetalle:tblVentaDetalle" onclick="PF('dlgNewVentaDetalle').hide();"/>
                     <p:commandButton icon="fa fa-close" value="Cancelar" actionListener="#{ventaDetalleC.limpiar()}" update="FormVentaDetalle" onclick="PF('dlgNewVentaDetalle').hide();"/>
+                </h:form>
+            </p:dialog>
+            
+            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModVentaDetalle" resizable="false"  modal="true">
+                <h:form id="FormModVentaDetalle">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Cantidad:"/>
+                        <p:inputText value="#{ventaDetalleC.ventaDetalle.CANVEN}" placeholder="Cantidad" maxlength="2">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel value="Subtotal:"/>
+                        <p:inputText value="#{ventaDetalleC.ventaDetalle.SBTVEN}" placeholder="Subtotal" maxlength="4">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel value="Producto:"/>
+                        <p:selectOneMenu value="#{ventaDetalleC.ventaDetalle.CODPRO}">
+                            <f:selectItem itemLabel="Seleccione" itemDisabled="true" itemValue="#{null}" />
+                            <f:selectItems value="#{productoC.lstProducto}" var="producto" itemLabel="#{producto.DESPRO}" itemValue="#{producto.CODPRO}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton icon="fa fa-edit" value="Aceptar" actionListener="#{ventaDetalleC.modificar()}" update=":FormTblVentaDetalle:tblVentaDetalle"  onclick="PF('dlgModVentaDetalle').hide();"/>
+                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModVentaDetalle').hide();"/>
                 </h:form>
             </p:dialog>
         </p:layout>
