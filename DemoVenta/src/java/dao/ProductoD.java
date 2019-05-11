@@ -11,11 +11,11 @@ public class ProductoD extends Dao{
     public void guardarProducto(ProductoM producto) throws Exception {
         try {
             this.conectar();
-            String sql = "INSERT INTO PRODUCTO (DESPRO,COSPRO,STOPRO,ESTPRO) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO PRODUCTO (DESPRO,COSPRO,STCPRO,ESTPRO) VALUES(?,?,?,?)";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, producto.getDESPRO());
             ps.setString(2, producto.getCOSPRO());
-            ps.setString(3, producto.getSTOPRO());
+            ps.setString(3, producto.getSTCPRO());
             ps.setString(4, "A");
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -28,11 +28,11 @@ public class ProductoD extends Dao{
     public void modificarProducto(ProductoM producto) throws Exception {
         try {
             this.conectar();
-            String sql = "UPDATE PRODUCTO SET DESPRO=?, COSPRO=?, STOPRO=? WHERE CODPRO=?";
+            String sql = "UPDATE PRODUCTO SET DESPRO=?, COSPRO=?, STCPRO=? WHERE CODPRO=?";
             PreparedStatement ps = this.getCn().prepareStatement(sql);
             ps.setString(1, producto.getDESPRO());
             ps.setString(2, producto.getCOSPRO());
-            ps.setString(3, producto.getSTOPRO());
+            ps.setString(3, producto.getSTCPRO());
             ps.setInt(4, producto.getCODPRO());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -71,7 +71,7 @@ public class ProductoD extends Dao{
                 producto.setCODPRO(rs.getInt("CODPRO"));
                 producto.setDESPRO(rs.getString("DESPRO"));
                 producto.setCOSPRO(rs.getString("COSPRO"));
-                producto.setSTOPRO(rs.getString("STOPRO"));
+                producto.setSTCPRO(rs.getString("STCPRO"));
                 producto.setESTPRO(rs.getString("ESTPRO"));
                 lista.add(producto);
             }

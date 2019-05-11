@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Producto</title>
+    </h:head>
+    <h:body>
+        <p:layout style="min-width:400px;min-height:770px;">
+            <p:layoutUnit position="north" size="110" header="Top" resizable="true" closable="true" collapsible="true">
+                <br />
+                <h:form>
+                    <a href="../faces/index.xhtml" style="font-size: x-large"> Inicio </a>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit position="west" resizable="true" size="150" minSize="40" maxSize="200">
+                Menú
+                <br />
+                <br />
+                <h:link outcome="Persona.xhtml" value="Persona" style="font-size: x-large"/>
+                <br />
+                <h:link outcome="Venta.xhtml" value="Venta" style="font-size: x-large"/>
+                <br />
+                <h:link outcome="VentaDetalle.xhtml" value="VentaDetalle" style="font-size: x-large"/>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <h1><center>Producto</center></h1>
+                <h:form id="FormTblProducto">
+                    <p:growl autoUpdate="true" life="1000"/>
+                    <p:dataTable id="tblProducto"  
+                                 value="#{productoC.lstProducto}"
+                                 var="producto"
+                                 selectionMode="single"
+                                 selection="#{productoC.selectedProducto}"
+                                 rowKey="#{producto.CODPRO}"
+                                 rows="10" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15" reflow="true">
+                        <p:column headerText="Descripción">
+                            <p:outputLabel  value="#{producto.DESPRO}"/>
+                        </p:column>
+                        <p:column headerText="Costo">
+                            <p:outputLabel   value="S/. #{producto.COSPRO}"/>
+                        </p:column>
+                        <p:column headerText="Stock">
+                            <p:outputLabel  value="#{producto.STCPRO}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <p:outputLabel  value="#{producto.ESTPRO}"/>
+                        </p:column>
+                        <f:facet name="header">
+                            <p:commandButton icon="fa fa-plus" value="Nuevo Producto" onclick="PF('dlgNewProducto').show();" actionListener="#{productoC.limpiar()}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <p:contextMenu for="tblProducto">
+                        <p:menuitem icon="fa fa-edit" value="Modificar"   onclick="PF('dlgModProducto').show();" update="FormModProducto"/>
+                        <p:menuitem icon="fa fa-trash" value="Eliminar" actionListener="#{productoC.eliminar()}"  update="tblProducto">
+                            <p:confirm header="Confirmación"   message="¿Estás seguro de Eliminar?" icon="ui-icon-alert"/>
+                        </p:menuitem>
+                    </p:contextMenu>
+                </h:form>
+            </p:layoutUnit>
+
+            <h:form>
+                <p:confirmDialog global="true">
+                    <p:commandButton value="Si" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+            <p:dialog  id="dialogo" header="Actualizar Datos" widgetVar="dlgModProducto" resizable="false"  modal="true">
+                <h:form id="FormModProducto">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Descripción:"/>
+                        <p:inputText value="#{productoC.selectedProducto.DESPRO}" placeholder="Descripción" maxlength="30">
+                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
+                        </p:inputText>
+                        <p:outputLabel value="Costo:"/>
+                        <p:inputText value="#{productoC.selectedProducto.COSPRO}" placeholder="Costo" maxlength="4">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel value="Stock:"/>
+                        <p:inputText value="#{productoC.selectedProducto.STCPRO}" placeholder="Stock" maxlength="2">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                    <p:commandButton icon="fa fa-edit" value="Modificar" actionListener="#{productoC.modificar()}" update=":FormTblProducto:tblProducto"  onclick="PF('dlgModProducto').hide();"/>
+                    <p:commandButton icon="fa fa-close" value="Cancelar"  onclick="PF('dlgModProducto').hide();"/>
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="dlg" header="Agregar Producto"  widgetVar="dlgNewProducto" resizable="false" modal="true">
+                <h:form id="FormProducto"> 
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Descripción:"/>
+                        <p:inputText value="#{productoC.producto.DESPRO}" placeholder="Descripción" maxlength="30" requiredMessage="INGRESE LA DESCRIPCIÓN">
+                            <p:keyFilter regEx="/[a-z_ á_é_í_ó_ú]/i"/>
+                        </p:inputText>
+                        <p:outputLabel value="Costo:"/>
+                        <p:inputText value="#{productoC.producto.COSPRO}" placeholder="Costo" maxlength="4" requiredMessage="INGRESE EL COSTO">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                        <p:outputLabel  value="Stock:"/>
+                        <p:inputText value="#{productoC.producto.STCPRO}" placeholder="Stock" maxlength="2" requiredMessage="INGRESE EL STOCK">
+                            <p:keyFilter regEx="/[\d]/"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                    <p:commandButton binding="#{registrar}" icon="fa fa-save" value="Guardar" actionListener="#{productoC.guardar()}" update="FormProducto :FormTblProducto:tblProducto" onclick="PF('dlgNewProducto').hide();"/>
+                    <p:commandButton icon="fa fa-close" value="Cancelar" actionListener="#{productoC.limpiar()}" update="FormProducto" onclick="PF('dlgNewProducto').hide();"/>
+                </h:form>
+            </p:dialog>
+        </p:layout>
+    </h:body>
+</html>

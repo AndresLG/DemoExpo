@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Menu</title>
+    </h:head>
+    <h:body>
+        
+        <h1><center>Demo</center></h1>
+        <br/>
+        
+        <p:layout style="min-width:400px;min-height:400px;">
+            <p:layoutUnit position="west" resizable="true" size="150" minSize="40" maxSize="200">
+                Menú
+                <br />
+                <br />
+                <h:link outcome="vistas/Persona" value="Persona" style="font-size: x-large"/>
+                <br />
+                <h:link outcome="vistas/Producto" value="Producto" style="font-size: x-large"/>
+                <br />
+                <h:link outcome="vistas/Venta" value="Venta" style="font-size: x-large"/>
+                <br />
+                <h:link outcome="vistas/VentaDetalle" value="VentaDetalle" style="font-size: x-large"/>
+
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                Descripción
+                <br />
+                <br />
+                <h2><center>DemoExpo: Exposición PrimeFaces</center></h2>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>
