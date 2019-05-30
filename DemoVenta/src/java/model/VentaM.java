@@ -2,7 +2,7 @@ package model;
 
 public class VentaM {
     private int CODVEN;
-    private String FECVEN,TOTVEN,CODPER,NOMBREPER,CODDETVEN,DESCPRO,COSTPRO,CANTPRO,SUBTDETVEN;
+    private String FECVEN,TOTVEN,CODPER,NOMBREPER,CODDETVEN,CODPRO,DESCPRO,COSTPRO,CANTPRO,SUBTDETVEN;
 
     public int getCODVEN() {
         return CODVEN;
@@ -82,6 +82,14 @@ public class VentaM {
 
     public void setCOSTPRO(String COSTPRO) {
         this.COSTPRO = COSTPRO;
+    }
+
+    public String getCODPRO() {
+        return CODPRO;
+    }
+
+    public void setCODPRO(String CODPRO) {
+        this.CODPRO = CODPRO;
     }
 
     

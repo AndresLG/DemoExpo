@@ -74,6 +74,7 @@ public class VentaD extends Dao{
                 venta.setCODPER(rs.getString("CODPER"));
                 venta.setNOMBREPER(rs.getString("Persona"));
                 venta.setCODDETVEN(rs.getString("CODDETVEN"));
+                venta.setCODPRO(rs.getString("CODPRO"));
                 venta.setDESCPRO(rs.getString("Producto"));
                 venta.setCOSTPRO(rs.getString("Costo"));
                 venta.setCANTPRO(rs.getString("Cantidad"));
